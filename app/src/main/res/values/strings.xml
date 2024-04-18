@@ -2,9 +2,11 @@
     <string name="app_name">Story App</string>
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
-
-
-
-
+    <string name="login">Login</string>
+    <string name="aleready_have_an_account">Aleready have an account?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="lorem">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt saepe repudiandae lique eos!</string>
+    <string name="welcome_to_story">Welcome to Story!</string>
     <string name="add_story_description">Add Story</string>
+    <string name="welcome_image_description">welcome image</string>
 </resources>

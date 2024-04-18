@@ -7,4 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="vodka">#B9B8FB</color>
+    <color name="maximum_blue_purple">#9895FC</color>
 </resources>
