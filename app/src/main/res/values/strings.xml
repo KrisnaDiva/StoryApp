@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+
+
+
+
+    <string name="add_story_description">Add Story</string>
+</resources>
