@@ -18,8 +18,8 @@ class WelcomeActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             Toast.makeText(this@WelcomeActivity, "Tombol Login", Toast.LENGTH_LONG).show()
         }
-        binding.btnSignIn.setOnClickListener {
-            Toast.makeText(this@WelcomeActivity, "Tombol Sign In", Toast.LENGTH_LONG).show()
+        binding.btnRegister.setOnClickListener {
+            Toast.makeText(this@WelcomeActivity, "Tombol Register", Toast.LENGTH_LONG).show()
         }
     }
 }
