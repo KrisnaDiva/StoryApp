@@ -9,4 +9,7 @@
     <string name="add_story_description">Add Story</string>
     <string name="welcome_image_description">welcome image</string>
     <string name="register">Register</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>

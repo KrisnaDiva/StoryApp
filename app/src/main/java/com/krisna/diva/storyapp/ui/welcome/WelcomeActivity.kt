@@ -1,9 +1,11 @@
 package com.krisna.diva.storyapp.ui.welcome
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.krisna.diva.storyapp.databinding.ActivityWelcomeBinding
+import com.krisna.diva.storyapp.ui.register.RegisterActivity
 
 class WelcomeActivity : AppCompatActivity() {
 
@@ -19,7 +21,7 @@ class WelcomeActivity : AppCompatActivity() {
             Toast.makeText(this@WelcomeActivity, "Tombol Login", Toast.LENGTH_LONG).show()
         }
         binding.btnRegister.setOnClickListener {
-            Toast.makeText(this@WelcomeActivity, "Tombol Register", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 }
