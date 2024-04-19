@@ -15,4 +15,6 @@
     <string name="password_error">Password must not be less than 8 characters</string>
     <string name="email_error">Please enter a valid email address</string>
     <string name="don_t_have_an_account">Don\'t have an account ?</string>
+    <string name="next">Continue</string>
+    <string name="yeah">Yeah!</string>
 </resources>

@@ -1,14 +1,18 @@
 package com.krisna.diva.storyapp.ui.register
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.data.network.ApiResponse
 import com.krisna.diva.storyapp.databinding.ActivityRegisterBinding
 import com.krisna.diva.storyapp.di.ViewModelFactory
+import com.krisna.diva.storyapp.ui.login.LoginActivity
 import com.krisna.diva.storyapp.utils.showLoading
-import com.krisna.diva.storyapp.utils.showToast
+import com.krisna.diva.storyapp.utils.showSnackBar
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -24,7 +28,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLogin.setOnClickListener {
-            Toast.makeText(this@RegisterActivity, "Tombol Login", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, LoginActivity::class.java))
         }
 
         binding.btnRegister.setOnClickListener {
@@ -37,17 +41,22 @@ class RegisterActivity : AppCompatActivity() {
                     when (result) {
                         is ApiResponse.Loading -> {
                             binding.progressIndicator.showLoading(true)
-
                         }
 
                         is ApiResponse.Success -> {
-                            this.showToast(result.data.message)
+                            MaterialAlertDialogBuilder(this)
+                                .setTitle(resources.getString(R.string.yeah))
+                                .setMessage(result.data.message)
+                                .setPositiveButton(resources.getString(R.string.next)) { _, _ ->
+                                    startActivity(Intent(this, LoginActivity::class.java))
+                                }
+                                .show()
                             binding.progressIndicator.showLoading(false)
 
                         }
 
                         is ApiResponse.Error -> {
-                            this.showToast(result.error)
+                            binding.root.showSnackBar(result.error)
                             binding.progressIndicator.showLoading(false)
 
                         }
