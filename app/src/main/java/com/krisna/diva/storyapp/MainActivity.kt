@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.krisna.diva.storyapp.databinding.ActivityMainBinding
-import com.krisna.diva.storyapp.ui.register.RegisterActivity
 import com.krisna.diva.storyapp.ui.welcome.WelcomeActivity
 
 class MainActivity : AppCompatActivity() {
