@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
     <string name="login">Login</string>
-    <string name="aleready_have_an_account">Aleready have an account?</string>
+    <string name="aleready_have_an_account">Aleready have an account ?</string>
     <string name="lorem">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt saepe repudiandae lique eos!</string>
     <string name="welcome_to_story_app">Welcome to Story App!</string>
     <string name="add_story_description">Add Story</string>
@@ -14,4 +14,5 @@
     <string name="password">Password</string>
     <string name="password_error">Password must not be less than 8 characters</string>
     <string name="email_error">Please enter a valid email address</string>
+    <string name="don_t_have_an_account">Don\'t have an account ?</string>
 </resources>
