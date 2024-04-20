@@ -1,4 +1,4 @@
-package com.krisna.diva.storyapp.ui.customview
+package com.krisna.diva.storyapp.ui.view.custom
 
 import android.content.Context
 import android.util.AttributeSet

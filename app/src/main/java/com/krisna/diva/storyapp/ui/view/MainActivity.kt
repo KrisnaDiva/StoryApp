@@ -1,16 +1,17 @@
-package com.krisna.diva.storyapp
+package com.krisna.diva.storyapp.ui.view
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.databinding.ActivityMainBinding
-import com.krisna.diva.storyapp.ui.welcome.WelcomeActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startActivity(Intent(this, WelcomeActivity::class.java))
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

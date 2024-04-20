@@ -1,16 +1,15 @@
-package com.krisna.diva.storyapp.ui.register
+package com.krisna.diva.storyapp.ui.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.krisna.diva.storyapp.R
-import com.krisna.diva.storyapp.data.network.ApiResponse
+import com.krisna.diva.storyapp.data.Result
 import com.krisna.diva.storyapp.databinding.ActivityRegisterBinding
-import com.krisna.diva.storyapp.di.ViewModelFactory
-import com.krisna.diva.storyapp.ui.login.LoginActivity
+import com.krisna.diva.storyapp.ui.ViewModelFactory
+import com.krisna.diva.storyapp.ui.viewmodel.RegisterViewModel
 import com.krisna.diva.storyapp.utils.showLoading
 import com.krisna.diva.storyapp.utils.showSnackBar
 
@@ -18,7 +17,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private val viewModel by viewModels<RegisterViewModel> {
-        ViewModelFactory.getInstance()
+        ViewModelFactory.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +28,7 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
 
         binding.btnRegister.setOnClickListener {
@@ -39,11 +39,11 @@ class RegisterActivity : AppCompatActivity() {
             ).observe(this) { result ->
                 if (result != null) {
                     when (result) {
-                        is ApiResponse.Loading -> {
+                        is Result.Loading -> {
                             binding.progressIndicator.showLoading(true)
                         }
 
-                        is ApiResponse.Success -> {
+                        is Result.Success -> {
                             MaterialAlertDialogBuilder(this)
                                 .setTitle(resources.getString(R.string.yeah))
                                 .setMessage(result.data.message)
@@ -55,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
 
                         }
 
-                        is ApiResponse.Error -> {
+                        is Result.Error -> {
                             binding.root.showSnackBar(result.error)
                             binding.progressIndicator.showLoading(false)
 

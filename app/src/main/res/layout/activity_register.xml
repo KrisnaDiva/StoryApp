@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/vodka"
-    tools:context=".ui.register.RegisterActivity">
+    tools:context=".ui.view.RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progressIndicator"
+            android:id="@+id/progress_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
@@ -95,7 +95,7 @@
             app:startIconDrawable="@drawable/ic_email"
             app:startIconTint="?android:attr/colorPrimary">
 
-            <com.krisna.diva.storyapp.ui.customview.EmailEditText
+            <com.krisna.diva.storyapp.ui.view.custom.EmailEditText
                 android:id="@+id/ed_register_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
             app:startIconDrawable="@drawable/ic_lock"
             app:startIconTint="?android:attr/colorPrimary">
 
-            <com.krisna.diva.storyapp.ui.customview.PasswordEditText
+            <com.krisna.diva.storyapp.ui.view.custom.PasswordEditText
                 android:id="@+id/ed_register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

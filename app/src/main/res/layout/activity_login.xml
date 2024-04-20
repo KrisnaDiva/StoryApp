@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/vodka"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.view.LoginActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +19,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -45,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_register_email"
+            android:id="@+id/til_login_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,8 +65,8 @@
             app:startIconDrawable="@drawable/ic_email"
             app:startIconTint="?android:attr/colorPrimary">
 
-            <com.krisna.diva.storyapp.ui.customview.EmailEditText
-                android:id="@+id/ed_register_email"
+            <com.krisna.diva.storyapp.ui.view.custom.EmailEditText
+                android:id="@+id/ed_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="8"
@@ -71,10 +82,10 @@
             android:text="@string/password"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_register_email" />
+            app:layout_constraintTop_toBottomOf="@+id/til_login_email" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_register_password"
+            android:id="@+id/til_login_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:endIconMode="password_toggle"
@@ -84,8 +95,8 @@
             app:startIconDrawable="@drawable/ic_lock"
             app:startIconTint="?android:attr/colorPrimary">
 
-            <com.krisna.diva.storyapp.ui.customview.PasswordEditText
-                android:id="@+id/ed_register_password"
+            <com.krisna.diva.storyapp.ui.view.custom.PasswordEditText
+                android:id="@+id/ed_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="8"

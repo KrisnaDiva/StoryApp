@@ -1,11 +1,9 @@
-package com.krisna.diva.storyapp.ui.welcome
+package com.krisna.diva.storyapp.ui.view
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.krisna.diva.storyapp.databinding.ActivityWelcomeBinding
-import com.krisna.diva.storyapp.ui.login.LoginActivity
-import com.krisna.diva.storyapp.ui.register.RegisterActivity
 
 class WelcomeActivity : AppCompatActivity() {
 

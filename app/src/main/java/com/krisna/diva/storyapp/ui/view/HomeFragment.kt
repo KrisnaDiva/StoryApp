@@ -1,4 +1,4 @@
-package com.krisna.diva.storyapp.ui.home
+package com.krisna.diva.storyapp.ui.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.krisna.diva.storyapp.databinding.FragmentHomeBinding
+import com.krisna.diva.storyapp.ui.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
 

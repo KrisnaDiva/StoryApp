@@ -1,4 +1,4 @@
-package com.krisna.diva.storyapp.data.network
+package com.krisna.diva.storyapp.data.remote.retrofit
 
 import com.krisna.diva.storyapp.BuildConfig
 import okhttp3.OkHttpClient
