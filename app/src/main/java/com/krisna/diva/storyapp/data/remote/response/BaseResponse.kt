@@ -2,7 +2,7 @@ package com.krisna.diva.storyapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisterResponse(
+data class BaseResponse(
     @field:SerializedName("error")
     val error: Boolean,
     @field:SerializedName("message")

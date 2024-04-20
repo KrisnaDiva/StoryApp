@@ -4,14 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.data.Result
 import com.krisna.diva.storyapp.databinding.ActivityRegisterBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.RegisterViewModel
 import com.krisna.diva.storyapp.utils.showLoading
 import com.krisna.diva.storyapp.utils.showSnackBar
+import com.krisna.diva.storyapp.utils.showToast
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -44,21 +43,15 @@ class RegisterActivity : AppCompatActivity() {
                         }
 
                         is Result.Success -> {
-                            MaterialAlertDialogBuilder(this)
-                                .setTitle(resources.getString(R.string.yeah))
-                                .setMessage(result.data.message)
-                                .setPositiveButton(resources.getString(R.string.next)) { _, _ ->
-                                    startActivity(Intent(this, LoginActivity::class.java))
-                                }
-                                .show()
+                            showToast(result.data.message)
                             binding.progressIndicator.showLoading(false)
-
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
                         }
 
                         is Result.Error -> {
                             binding.root.showSnackBar(result.error)
                             binding.progressIndicator.showLoading(false)
-
                         }
                     }
                 }

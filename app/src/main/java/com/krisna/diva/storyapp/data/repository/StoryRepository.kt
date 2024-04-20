@@ -5,9 +5,9 @@ import com.google.gson.Gson
 import com.krisna.diva.storyapp.data.Result
 import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.data.pref.UserPreference
+import com.krisna.diva.storyapp.data.remote.response.BaseResponse
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
-import com.krisna.diva.storyapp.data.remote.response.RegisterResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
@@ -23,7 +23,7 @@ class StoryRepository private constructor(
             emit(Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
+            val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
             emit(Result.Error(errorResponse.message))
         }
     }

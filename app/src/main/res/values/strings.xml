@@ -18,4 +18,5 @@
     <string name="next">Continue</string>
     <string name="yeah">Yeah!</string>
     <string name="logout">Logout</string>
+    <string name="desc">Story App is a story sharing app specifically for the Dicoding community. Share your learning moments here.</string>
 </resources>
