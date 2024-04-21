@@ -1,7 +1,7 @@
 package com.krisna.diva.storyapp.ui.view
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         binding.fabAddStory.setOnClickListener {
-            Toast.makeText(this@MainActivity, "Tombol Di Klik", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, AddStoryActivity::class.java))
         }
     }
 }

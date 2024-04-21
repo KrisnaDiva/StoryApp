@@ -2,7 +2,6 @@ package com.krisna.diva.storyapp.ui.view
 
 import android.content.res.Configuration
 import android.os.Bundle
-import com.krisna.diva.storyapp.data.Result
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.krisna.diva.storyapp.data.Result
 import com.krisna.diva.storyapp.databinding.FragmentHomeBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.view.adapter.StoryAdapter
 import com.krisna.diva.storyapp.ui.viewmodel.HomeViewModel
 import com.krisna.diva.storyapp.utils.showLoading
 import com.krisna.diva.storyapp.utils.showSnackBar
+import com.krisna.diva.storyapp.utils.showToast
 
 class HomeFragment : Fragment() {
 
@@ -61,6 +62,7 @@ class HomeFragment : Fragment() {
                     }
 
                     is Result.Success -> {
+                        requireContext().showToast(result.data.message)
                         binding.progressIndicator.showLoading(false)
                         val stories = result.data.listStory
                         storyAdapter.submitList(stories)

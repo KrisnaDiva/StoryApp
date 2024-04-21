@@ -1,5 +1,6 @@
 package com.krisna.diva.storyapp.ui.view.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.krisna.diva.storyapp.data.remote.response.ListStoryItem
 import com.krisna.diva.storyapp.databinding.ItemStoryBinding
+import com.krisna.diva.storyapp.ui.view.DetailActivity
 
 class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -15,10 +17,20 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
         return MyViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val story = getItem(position)
-        holder.bind(story)
+override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    val story = getItem(position)
+    holder.bind(story)
+
+    if (position == itemCount - 1) {
+        val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+        params.bottomMargin = 160
+        holder.itemView.layoutParams = params
+    } else {
+        val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+        params.bottomMargin = 0
+        holder.itemView.layoutParams = params
     }
+}
 
     class MyViewHolder(private val binding: ItemStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -28,6 +40,12 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
             Glide.with(binding.root)
                 .load(story.photoUrl)
                 .into(binding.ivItemPhoto)
+
+            binding.cardView.setOnClickListener {
+                val moveWithDataIntent = Intent(binding.root.context, DetailActivity::class.java)
+                moveWithDataIntent.putExtra(DetailActivity.ID, story.id)
+                binding.root.context.startActivity(moveWithDataIntent)
+            }
         }
     }
 

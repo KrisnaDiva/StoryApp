@@ -53,6 +53,18 @@ class StoryRepository private constructor(
         }
     }
 
+    fun getDetailStory(storyId: String) = liveData {
+        emit(Result.Loading)
+        try {
+            val successResponse = apiService.getDetailStory(storyId)
+            emit(Result.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
+            emit(Result.Error(errorResponse.message))
+        }
+    }
+
     suspend fun saveUser(user: UserModel) {
         userPreference.saveUser(user)
     }
