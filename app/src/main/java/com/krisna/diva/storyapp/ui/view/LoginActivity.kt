@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         is Result.Success -> {
-                            viewModel.saveSession(UserModel(result.data.loginResult.name, binding.edLoginEmail.text.toString(), result.data.loginResult.token))
+                            viewModel.saveUser(UserModel(result.data.loginResult.name, binding.edLoginEmail.text.toString(), result.data.loginResult.token))
                             showToast(result.data.message)
                             binding.progressIndicator.showLoading(false)
                             val intent = Intent(this, MainActivity::class.java)

@@ -27,9 +27,13 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        viewModel.getSession().observe(viewLifecycleOwner) { user ->
+        return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getUser().observe(viewLifecycleOwner) { user ->
             binding.tvName.text = user.name
             binding.tvEmail.text = user.email
         }
@@ -40,7 +44,6 @@ class ProfileFragment : Fragment() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
-        return root
     }
 
     override fun onDestroyView() {

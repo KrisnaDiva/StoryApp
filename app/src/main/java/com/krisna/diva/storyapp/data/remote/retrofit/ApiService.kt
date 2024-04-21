@@ -2,8 +2,10 @@ package com.krisna.diva.storyapp.data.remote.retrofit
 
 import com.krisna.diva.storyapp.data.remote.response.BaseResponse
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
+import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -22,4 +24,6 @@ interface ApiService {
         @Field("password") password: String
     ): LoginResponse
 
+    @GET("stories")
+    suspend fun getAllStories(): StoryResponse
 }

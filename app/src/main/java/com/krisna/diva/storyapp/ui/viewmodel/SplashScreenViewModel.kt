@@ -7,7 +7,7 @@ import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.data.repository.StoryRepository
 
 class SplashScreenViewModel(private val repository: StoryRepository) : ViewModel() {
-    fun getSession(): LiveData<UserModel> {
-        return repository.getSession().asLiveData()
+    fun getUser(): LiveData<UserModel> {
+        return repository.getUser().asLiveData()
     }
 }

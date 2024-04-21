@@ -7,6 +7,7 @@ import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.data.pref.UserPreference
 import com.krisna.diva.storyapp.data.remote.response.BaseResponse
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
+import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
@@ -40,12 +41,24 @@ class StoryRepository private constructor(
         }
     }
 
-    suspend fun saveSession(user: UserModel) {
-        userPreference.saveSession(user)
+    fun getAllStories() = liveData {
+        emit(Result.Loading)
+        try {
+            val successResponse = apiService.getAllStories()
+            emit(Result.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
+            emit(Result.Error(errorResponse.message))
+        }
     }
 
-    fun getSession(): Flow<UserModel> {
-        return userPreference.getSession()
+    suspend fun saveUser(user: UserModel) {
+        userPreference.saveUser(user)
+    }
+
+    fun getUser(): Flow<UserModel> {
+        return userPreference.getUser()
     }
 
     suspend fun logout() {

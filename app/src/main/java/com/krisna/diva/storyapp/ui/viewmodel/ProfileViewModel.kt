@@ -11,18 +11,13 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val repository: StoryRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is profile Fragment"
-    }
-    val text: LiveData<String> = _text
-
     fun logout() {
         viewModelScope.launch {
             repository.logout()
         }
     }
 
-    fun getSession(): LiveData<UserModel> {
-        return repository.getSession().asLiveData()
+    fun getUser(): LiveData<UserModel> {
+        return repository.getUser().asLiveData()
     }
 }

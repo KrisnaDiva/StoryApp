@@ -26,7 +26,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             delay(3000)
-            viewModel.getSession().observe(this@SplashScreenActivity) { user ->
+            viewModel.getUser().observe(this@SplashScreenActivity) { user ->
                 if (!user.isLogin) {
                     startActivity(Intent(this@SplashScreenActivity, WelcomeActivity::class.java))
                 } else {
