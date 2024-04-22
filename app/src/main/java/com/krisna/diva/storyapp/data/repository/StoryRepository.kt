@@ -41,29 +41,9 @@ class StoryRepository private constructor(
         }
     }
 
-    fun getAllStories() = liveData {
-        emit(Result.Loading)
-        try {
-            val successResponse = apiService.getAllStories()
-            emit(Result.Success(successResponse))
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
-            emit(Result.Error(errorResponse.message))
-        }
-    }
+    suspend fun getAllStories() = apiService.getAllStories()
 
-    fun getDetailStory(storyId: String) = liveData {
-        emit(Result.Loading)
-        try {
-            val successResponse = apiService.getDetailStory(storyId)
-            emit(Result.Success(successResponse))
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
-            emit(Result.Error(errorResponse.message))
-        }
-    }
+    suspend fun getDetailStory(storyId: String) = apiService.getDetailStory(storyId)
 
     suspend fun saveUser(user: UserModel) {
         userPreference.saveUser(user)

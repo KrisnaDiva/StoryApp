@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
             adapter = storyAdapter
         }
 
-        viewModel.getAllStories().observe(viewLifecycleOwner) { result ->
+        viewModel.listStory.observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -62,10 +62,9 @@ class HomeFragment : Fragment() {
                     }
 
                     is Result.Success -> {
-                        requireContext().showToast(result.data.message)
                         binding.progressIndicator.showLoading(false)
-                        val stories = result.data.listStory
-                        storyAdapter.submitList(stories)
+                        val stories = result.data
+                        storyAdapter.submitList(stories.listStory)
                     }
 
                     is Result.Error -> {

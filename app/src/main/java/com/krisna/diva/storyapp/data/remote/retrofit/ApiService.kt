@@ -4,6 +4,7 @@ import com.krisna.diva.storyapp.data.remote.response.BaseResponse
 import com.krisna.diva.storyapp.data.remote.response.DetailResponse
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
 import com.krisna.diva.storyapp.data.remote.response.StoryResponse
+import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

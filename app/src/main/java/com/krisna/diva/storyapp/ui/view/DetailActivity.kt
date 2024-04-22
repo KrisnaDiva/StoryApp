@@ -29,33 +29,35 @@ class DetailActivity : AppCompatActivity() {
 
         val id = intent.getStringExtra(ID)
         id?.let {
-            viewModel.getDetailStory(it).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Result.Loading -> {
-                            binding.progressIndicator.showLoading(true)
-                        }
+            viewModel.updateId(it)
+        }
 
-                        is Result.Success -> {
-                            binding.progressIndicator.showLoading(false)
-                            binding.tvDetailName.text = result.data.story.name
-                            binding.tvDetailDescription.text = result.data.story.description
-                            Glide.with(binding.root)
-                                .load(result.data.story.photoUrl)
-                                .into(binding.ivDetailPhoto)
+        viewModel.storyDetail.observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressIndicator.showLoading(true)
+                    }
 
-                        }
+                    is Result.Success -> {
+                        binding.progressIndicator.showLoading(false)
+                        binding.tvDetailName.text = result.data.story.name
+                        binding.tvDetailDescription.text = result.data.story.description
+                        Glide.with(binding.root)
+                            .load(result.data.story.photoUrl)
+                            .into(binding.ivDetailPhoto)
 
-                        is Result.Error -> {
-                            binding.root.showSnackBar(result.error)
-                            binding.progressIndicator.showLoading(false)
-                        }
+                    }
+
+                    is Result.Error -> {
+                        binding.root.showSnackBar(result.error)
+                        binding.progressIndicator.showLoading(false)
                     }
                 }
             }
         }
-
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -66,6 +68,7 @@ class DetailActivity : AppCompatActivity() {
             else -> false
         }
     }
+
     companion object {
         const val ID = "id"
     }
