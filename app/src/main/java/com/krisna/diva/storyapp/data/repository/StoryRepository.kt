@@ -10,7 +10,12 @@ import com.krisna.diva.storyapp.data.remote.response.LoginResponse
 import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
+import java.io.File
 
 class StoryRepository private constructor(
     private val apiService: ApiService,
@@ -44,6 +49,26 @@ class StoryRepository private constructor(
     suspend fun getAllStories() = apiService.getAllStories()
 
     suspend fun getDetailStory(storyId: String) = apiService.getDetailStory(storyId)
+
+    fun addNewStory(imageFile: File, description: String) = liveData {
+        emit(Result.Loading)
+        val requestBody = description.toRequestBody("text/plain".toMediaType())
+        val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+        val multipartBody = MultipartBody.Part.createFormData(
+            "photo",
+            imageFile.name,
+            requestImageFile
+        )
+        try {
+            val successResponse = apiService.addStory(multipartBody, requestBody)
+            emit(Result.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+            emit(Result.Error(errorResponse.message))
+        }
+
+    }
 
     suspend fun saveUser(user: UserModel) {
         userPreference.saveUser(user)

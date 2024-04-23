@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
                     }
 
                     is Result.Error -> {
-                        binding.root.showSnackBar(result.error)
+                        requireContext().showToast(result.error)
                         binding.progressIndicator.showLoading(false)
                     }
                 }

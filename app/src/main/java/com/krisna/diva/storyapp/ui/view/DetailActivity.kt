@@ -11,6 +11,7 @@ import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.DetailViewModel
 import com.krisna.diva.storyapp.utils.showLoading
 import com.krisna.diva.storyapp.utils.showSnackBar
+import com.krisna.diva.storyapp.utils.showToast
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -46,11 +47,10 @@ class DetailActivity : AppCompatActivity() {
                         Glide.with(binding.root)
                             .load(result.data.story.photoUrl)
                             .into(binding.ivDetailPhoto)
-
                     }
 
                     is Result.Error -> {
-                        binding.root.showSnackBar(result.error)
+                        showToast(result.error)
                         binding.progressIndicator.showLoading(false)
                     }
                 }

@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         is Result.Error -> {
-                            binding.root.showSnackBar(result.error)
+                            showToast(result.error)
                             binding.progressIndicator.showLoading(false)
                         }
                     }
