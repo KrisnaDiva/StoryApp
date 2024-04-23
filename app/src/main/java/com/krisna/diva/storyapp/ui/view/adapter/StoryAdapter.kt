@@ -1,11 +1,14 @@
 package com.krisna.diva.storyapp.ui.view.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.core.util.Pair
 import com.bumptech.glide.Glide
 import com.krisna.diva.storyapp.data.remote.response.ListStoryItem
 import com.krisna.diva.storyapp.databinding.ItemStoryBinding
@@ -42,9 +45,16 @@ override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
                 .into(binding.ivItemPhoto)
 
             binding.cardView.setOnClickListener {
-                val moveWithDataIntent = Intent(binding.root.context, DetailActivity::class.java)
-                moveWithDataIntent.putExtra(DetailActivity.ID, story.id)
-                binding.root.context.startActivity(moveWithDataIntent)
+                val intent = Intent(binding.root.context, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.ID, story.id)
+                val optionsCompat: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        itemView.context as Activity,
+                        Pair(binding.ivItemPhoto, "photo"),
+                        Pair(binding.tvItemName, "name"),
+                        Pair(binding.tvItemDescription, "description"),
+                    )
+                binding.root.context.startActivity(intent, optionsCompat.toBundle())
             }
         }
     }
