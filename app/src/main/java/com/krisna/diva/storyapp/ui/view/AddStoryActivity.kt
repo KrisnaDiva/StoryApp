@@ -4,7 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import com.krisna.diva.storyapp.data.Result
+import com.krisna.diva.storyapp.data.ResultState
 import android.view.MenuItem
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,7 +14,6 @@ import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.databinding.ActivityAddStoryBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.AddStoryViewModel
-import com.krisna.diva.storyapp.ui.viewmodel.DetailViewModel
 import com.krisna.diva.storyapp.utils.getImageUri
 import com.krisna.diva.storyapp.utils.reduceFileImage
 import com.krisna.diva.storyapp.utils.showLoading
@@ -102,11 +101,11 @@ class AddStoryActivity : AppCompatActivity() {
             viewModel.addNewStory(imageFile, description).observe(this) { result ->
                 if (result != null) {
                     when (result) {
-                        is Result.Loading -> {
+                        is ResultState.Loading -> {
                             binding.progressIndicator.showLoading(true)
                         }
 
-                        is Result.Success -> {
+                        is ResultState.Success -> {
                             showToast(result.data.message)
                             binding.progressIndicator.showLoading(false)
                             val intent = Intent(this, MainActivity::class.java)
@@ -114,9 +113,13 @@ class AddStoryActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
 
-                        is Result.Error -> {
+                        is ResultState.Error -> {
                             showToast(result.error)
                             binding.progressIndicator.showLoading(false)
+                        }
+
+                        else -> {
+                            /* Do nothing*/
                         }
                     }
                 }

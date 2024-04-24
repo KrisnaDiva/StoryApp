@@ -9,13 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.krisna.diva.storyapp.data.Result
+import com.krisna.diva.storyapp.R
+import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.databinding.FragmentHomeBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.view.adapter.StoryAdapter
 import com.krisna.diva.storyapp.ui.viewmodel.HomeViewModel
 import com.krisna.diva.storyapp.utils.showLoading
-import com.krisna.diva.storyapp.utils.showSnackBar
 import com.krisna.diva.storyapp.utils.showToast
 
 class HomeFragment : Fragment() {
@@ -57,18 +57,23 @@ class HomeFragment : Fragment() {
         viewModel.listStory.observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
-                    is Result.Loading -> {
+                    is ResultState.Loading -> {
                         binding.progressIndicator.showLoading(true)
                     }
 
-                    is Result.Success -> {
+                    is ResultState.Success -> {
                         binding.progressIndicator.showLoading(false)
                         val stories = result.data
                         storyAdapter.submitList(stories.listStory)
                     }
 
-                    is Result.Error -> {
+                    is ResultState.Error -> {
                         requireContext().showToast(result.error)
+                        binding.progressIndicator.showLoading(false)
+                    }
+
+                    is ResultState.Empty -> {
+                        requireContext().showToast(R.string.result_empty.toString())
                         binding.progressIndicator.showLoading(false)
                     }
                 }

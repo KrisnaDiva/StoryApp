@@ -4,13 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.krisna.diva.storyapp.data.Result
+import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.databinding.ActivityLoginBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.LoginViewModel
 import com.krisna.diva.storyapp.utils.showLoading
-import com.krisna.diva.storyapp.utils.showSnackBar
 import com.krisna.diva.storyapp.utils.showToast
 
 class LoginActivity : AppCompatActivity() {
@@ -18,6 +17,7 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,23 +37,34 @@ class LoginActivity : AppCompatActivity() {
             ).observe(this) { result ->
                 if (result != null) {
                     when (result) {
-                        is Result.Loading -> {
+                        is ResultState.Loading -> {
                             binding.progressIndicator.showLoading(true)
                         }
 
-                        is Result.Success -> {
-                            viewModel.saveUser(UserModel(result.data.loginResult.name, binding.edLoginEmail.text.toString(), result.data.loginResult.token))
+                        is ResultState.Success -> {
+                            viewModel.saveUser(
+                                UserModel(
+                                    result.data.loginResult.name,
+                                    binding.edLoginEmail.text.toString(),
+                                    result.data.loginResult.token
+                                )
+                            )
                             showToast(result.data.message)
                             binding.progressIndicator.showLoading(false)
                             val intent = Intent(this, MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                             startActivity(intent)
                             finish()
                         }
 
-                        is Result.Error -> {
+                        is ResultState.Error -> {
                             showToast(result.error)
                             binding.progressIndicator.showLoading(false)
+                        }
+
+                        else -> {
+                            /* Do nothing*/
                         }
                     }
                 }

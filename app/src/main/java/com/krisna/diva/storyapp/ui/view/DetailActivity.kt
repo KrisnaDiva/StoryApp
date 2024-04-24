@@ -5,12 +5,11 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.krisna.diva.storyapp.data.Result
+import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.databinding.ActivityDetailBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.DetailViewModel
 import com.krisna.diva.storyapp.utils.showLoading
-import com.krisna.diva.storyapp.utils.showSnackBar
 import com.krisna.diva.storyapp.utils.showToast
 
 class DetailActivity : AppCompatActivity() {
@@ -36,11 +35,11 @@ class DetailActivity : AppCompatActivity() {
         viewModel.storyDetail.observe(this) { result ->
             if (result != null) {
                 when (result) {
-                    is Result.Loading -> {
+                    is ResultState.Loading -> {
                         binding.progressIndicator.showLoading(true)
                     }
 
-                    is Result.Success -> {
+                    is ResultState.Success -> {
                         binding.progressIndicator.showLoading(false)
                         binding.tvDetailName.text = result.data.story.name
                         binding.tvDetailDescription.text = result.data.story.description
@@ -49,9 +48,13 @@ class DetailActivity : AppCompatActivity() {
                             .into(binding.ivDetailPhoto)
                     }
 
-                    is Result.Error -> {
+                    is ResultState.Error -> {
                         showToast(result.error)
                         binding.progressIndicator.showLoading(false)
+                    }
+
+                    else -> {
+                        /* Do nothing*/
                     }
                 }
             }

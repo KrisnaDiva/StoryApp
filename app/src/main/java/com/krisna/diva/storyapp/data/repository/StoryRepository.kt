@@ -2,14 +2,19 @@ package com.krisna.diva.storyapp.data.repository
 
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
-import com.krisna.diva.storyapp.data.Result
+import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.data.pref.UserPreference
 import com.krisna.diva.storyapp.data.remote.response.BaseResponse
+import com.krisna.diva.storyapp.data.remote.response.DetailResponse
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
 import com.krisna.diva.storyapp.data.remote.response.StoryResponse
+import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
+import com.krisna.diva.storyapp.di.Injection
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -18,31 +23,33 @@ import retrofit2.HttpException
 import java.io.File
 
 class StoryRepository private constructor(
-    private val apiService: ApiService,
+    private var apiService: ApiService,
     private val userPreference: UserPreference
 ) {
 
     fun register(name: String, email: String, password: String) = liveData {
-        emit(Result.Loading)
+        emit(ResultState.Loading)
         try {
             val successResponse = apiService.register(name, email, password)
-            emit(Result.Success(successResponse))
+            emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-            emit(Result.Error(errorResponse.message))
+            emit(ResultState.Error(errorResponse.message))
         }
     }
 
     fun login(email: String, password: String) = liveData {
-        emit(Result.Loading)
+        emit(ResultState.Loading)
         try {
             val successResponse = apiService.login(email, password)
-            emit(Result.Success(successResponse))
+            val newApiService = ApiConfig.getApiService(successResponse.loginResult.token)
+            apiService = newApiService
+            emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
-            emit(Result.Error(errorResponse.message))
+            emit(ResultState.Error(errorResponse.message))
         }
     }
 
@@ -51,7 +58,7 @@ class StoryRepository private constructor(
     suspend fun getDetailStory(storyId: String) = apiService.getDetailStory(storyId)
 
     fun addNewStory(imageFile: File, description: String) = liveData {
-        emit(Result.Loading)
+        emit(ResultState.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
         val multipartBody = MultipartBody.Part.createFormData(
@@ -61,13 +68,12 @@ class StoryRepository private constructor(
         )
         try {
             val successResponse = apiService.addStory(multipartBody, requestBody)
-            emit(Result.Success(successResponse))
+            emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
-            emit(Result.Error(errorResponse.message))
+            emit(ResultState.Error(errorResponse.message))
         }
-
     }
 
     suspend fun saveUser(user: UserModel) {
@@ -81,7 +87,6 @@ class StoryRepository private constructor(
     suspend fun logout() {
         userPreference.logout()
     }
-
 
     companion object {
         @Volatile

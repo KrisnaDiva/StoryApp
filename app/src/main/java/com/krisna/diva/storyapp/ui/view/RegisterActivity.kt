@@ -4,12 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.krisna.diva.storyapp.data.Result
+import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.databinding.ActivityRegisterBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.RegisterViewModel
 import com.krisna.diva.storyapp.utils.showLoading
-import com.krisna.diva.storyapp.utils.showSnackBar
 import com.krisna.diva.storyapp.utils.showToast
 
 class RegisterActivity : AppCompatActivity() {
@@ -39,20 +38,24 @@ class RegisterActivity : AppCompatActivity() {
             ).observe(this) { result ->
                 if (result != null) {
                     when (result) {
-                        is Result.Loading -> {
+                        is ResultState.Loading -> {
                             binding.progressIndicator.showLoading(true)
                         }
 
-                        is Result.Success -> {
+                        is ResultState.Success -> {
                             showToast(result.data.message)
                             binding.progressIndicator.showLoading(false)
                             startActivity(Intent(this, LoginActivity::class.java))
                             finish()
                         }
 
-                        is Result.Error -> {
+                        is ResultState.Error -> {
                             showToast(result.error)
                             binding.progressIndicator.showLoading(false)
+                        }
+
+                        else -> {
+                            /* Do nothing*/
                         }
                     }
                 }
