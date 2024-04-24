@@ -23,10 +23,10 @@ class HomeViewModel(private val repository: StoryRepository) : ViewModel() {
             _listStory.postValue(ResultState.Loading)
             try {
                 val tempStory = repository.getAllStories()
-                if (tempStory.listStory.isEmpty()){
+                if (tempStory.listStory.isEmpty()) {
                     _listStory.postValue(ResultState.Empty)
-                } else{
-                _listStory.postValue(ResultState.Success(tempStory))
+                } else {
+                    _listStory.postValue(ResultState.Success(tempStory))
                 }
             } catch (e: HttpException) {
                 val errorBody = e.response()?.errorBody()?.string()

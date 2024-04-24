@@ -13,6 +13,7 @@ import com.krisna.diva.storyapp.utils.showLoading
 import com.krisna.diva.storyapp.utils.showToast
 
 class DetailActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityDetailBinding
     private val viewModel by viewModels<DetailViewModel> {
         ViewModelFactory.getInstance(this)
@@ -53,9 +54,7 @@ class DetailActivity : AppCompatActivity() {
                         binding.progressIndicator.showLoading(false)
                     }
 
-                    else -> {
-                        /* Do nothing*/
-                    }
+                    else -> {}
                 }
             }
         }

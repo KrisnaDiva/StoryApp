@@ -4,7 +4,6 @@
     <string name="title_profile">Profile</string>
     <string name="login">Login</string>
     <string name="aleready_have_an_account">Aleready have an account ?</string>
-    <string name="lorem">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt saepe repudiandae lique eos!</string>
     <string name="welcome_to_story_app">Welcome to Story App!</string>
     <string name="add_story_description">Add Story</string>
     <string name="welcome_image_description">welcome image</string>
@@ -15,16 +14,15 @@
     <string name="password_error">Password must not be less than 8 characters</string>
     <string name="email_error">Please enter a valid email address</string>
     <string name="don_t_have_an_account">Don\'t have an account ?</string>
-    <string name="next">Continue</string>
-    <string name="yeah">Yeah!</string>
     <string name="logout">Logout</string>
     <string name="desc">Story App is a story sharing app specifically for the Dicoding community. Share your learning moments here.</string>
     <string name="story_image_description">Story Image</string>
-    <string name="detail">Detail</string>
     <string name="description">Description</string>
     <string name="upload">Upload</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="empty_image_warning">Please insert the image file first.</string>
     <string name="result_empty">Result Empty</string>
+    <string name="app_language">App language</string>
+    <string name="language_icon">language icon</string>
 </resources>

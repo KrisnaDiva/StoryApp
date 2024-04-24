@@ -12,7 +12,6 @@ import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

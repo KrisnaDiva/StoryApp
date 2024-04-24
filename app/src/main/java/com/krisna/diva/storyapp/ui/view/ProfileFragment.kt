@@ -2,6 +2,7 @@ package com.krisna.diva.storyapp.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,11 @@ import androidx.fragment.app.viewModels
 import com.krisna.diva.storyapp.databinding.FragmentProfileBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.ProfileViewModel
+import java.util.Locale
 
 class ProfileFragment : Fragment() {
-
     private var _binding: FragmentProfileBinding? = null
-
     private val binding get() = _binding!!
-
     private val viewModel by viewModels<ProfileViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
@@ -30,6 +29,7 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,6 +42,13 @@ class ProfileFragment : Fragment() {
             viewModel.logout()
             val intent = Intent(requireContext(), WelcomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
+
+        binding.tvLanguage.text = Locale.getDefault().language
+
+        binding.llLanguage.setOnClickListener {
+            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
             startActivity(intent)
         }
     }

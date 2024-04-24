@@ -19,15 +19,11 @@ import com.krisna.diva.storyapp.utils.showLoading
 import com.krisna.diva.storyapp.utils.showToast
 
 class HomeFragment : Fragment() {
-
     private var _binding: FragmentHomeBinding? = null
-
     private val binding get() = _binding!!
-
     private val viewModel by viewModels<HomeViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
-
     private lateinit var storyAdapter: StoryAdapter
 
     override fun onCreateView(

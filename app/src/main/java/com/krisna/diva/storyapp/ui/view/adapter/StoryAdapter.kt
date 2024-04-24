@@ -5,10 +5,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.core.util.Pair
 import com.bumptech.glide.Glide
 import com.krisna.diva.storyapp.data.remote.response.ListStoryItem
 import com.krisna.diva.storyapp.databinding.ItemStoryBinding
@@ -20,20 +20,20 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
         return MyViewHolder(binding)
     }
 
-override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-    val story = getItem(position)
-    holder.bind(story)
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val story = getItem(position)
+        holder.bind(story)
 
-    if (position == itemCount - 1) {
-        val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
-        params.bottomMargin = 160
-        holder.itemView.layoutParams = params
-    } else {
-        val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
-        params.bottomMargin = 0
-        holder.itemView.layoutParams = params
+        if (position == itemCount - 1) {
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 160
+            holder.itemView.layoutParams = params
+        } else {
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 0
+            holder.itemView.layoutParams = params
+        }
     }
-}
 
     class MyViewHolder(private val binding: ItemStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -65,7 +65,10 @@ override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ListStoryItem,
+                newItem: ListStoryItem
+            ): Boolean {
                 return oldItem == newItem
             }
         }

@@ -3,14 +3,13 @@ package com.krisna.diva.storyapp.ui.view
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import com.krisna.diva.storyapp.data.ResultState
 import android.view.MenuItem
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.krisna.diva.storyapp.R
+import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.databinding.ActivityAddStoryBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.AddStoryViewModel
@@ -21,13 +20,10 @@ import com.krisna.diva.storyapp.utils.showToast
 import com.krisna.diva.storyapp.utils.uriToFile
 
 class AddStoryActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityAddStoryBinding
-
     private val viewModel by viewModels<AddStoryViewModel> {
         ViewModelFactory.getInstance(this)
     }
-
     private var newImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,8 +62,6 @@ class AddStoryActivity : AppCompatActivity() {
         if (uri != null) {
             viewModel.currentImageUri.value = uri
             showImage()
-        } else {
-            Log.d("Photo Picker", "No media selected")
         }
     }
 
@@ -87,7 +81,6 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun showImage() {
         viewModel.currentImageUri.value?.let {
-            Log.d("Image URI", "showImage: $it")
             binding.ivPreview.setImageURI(it)
         }
     }
@@ -95,7 +88,6 @@ class AddStoryActivity : AppCompatActivity() {
     private fun addNewStory() {
         viewModel.currentImageUri.value?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
-            Log.d("Image File", "showImage: ${imageFile.path}")
             val description = binding.edAddDescription.text.toString()
 
             viewModel.addNewStory(imageFile, description).observe(this) { result ->
@@ -109,7 +101,8 @@ class AddStoryActivity : AppCompatActivity() {
                             showToast(result.data.message)
                             binding.progressIndicator.showLoading(false)
                             val intent = Intent(this, MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                             startActivity(intent)
                         }
 
@@ -118,9 +111,7 @@ class AddStoryActivity : AppCompatActivity() {
                             binding.progressIndicator.showLoading(false)
                         }
 
-                        else -> {
-                            /* Do nothing*/
-                        }
+                        else -> {}
                     }
                 }
             }

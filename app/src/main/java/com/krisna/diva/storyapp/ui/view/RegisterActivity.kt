@@ -12,7 +12,6 @@ import com.krisna.diva.storyapp.utils.showLoading
 import com.krisna.diva.storyapp.utils.showToast
 
 class RegisterActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityRegisterBinding
     private val viewModel by viewModels<RegisterViewModel> {
         ViewModelFactory.getInstance(this)
@@ -55,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
                         }
 
                         else -> {
-                            /* Do nothing*/
+
                         }
                     }
                 }

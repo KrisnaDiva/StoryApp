@@ -1,7 +1,6 @@
 package com.krisna.diva.storyapp.di
 
 import android.content.Context
-import android.util.Log
 import com.krisna.diva.storyapp.data.pref.UserPreference
 import com.krisna.diva.storyapp.data.pref.dataStore
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig

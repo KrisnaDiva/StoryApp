@@ -6,15 +6,10 @@ import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.data.pref.UserPreference
 import com.krisna.diva.storyapp.data.remote.response.BaseResponse
-import com.krisna.diva.storyapp.data.remote.response.DetailResponse
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
-import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
-import com.krisna.diva.storyapp.di.Injection
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody

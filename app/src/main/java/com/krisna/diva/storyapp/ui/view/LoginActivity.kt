@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         else -> {
-                            /* Do nothing*/
+
                         }
                     }
                 }
