@@ -50,8 +50,6 @@ class StoryRepository private constructor(
 
     suspend fun getAllStories() = apiService.getAllStories()
 
-    suspend fun getDetailStory(storyId: String) = apiService.getDetailStory(storyId)
-
     fun addNewStory(imageFile: File, description: String) = liveData {
         emit(ResultState.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())

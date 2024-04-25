@@ -1,7 +1,6 @@
 package com.krisna.diva.storyapp.data.remote.retrofit
 
 import com.krisna.diva.storyapp.data.remote.response.BaseResponse
-import com.krisna.diva.storyapp.data.remote.response.DetailResponse
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
 import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import okhttp3.MultipartBody
@@ -12,7 +11,6 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
-import retrofit2.http.Path
 
 interface ApiService {
     @FormUrlEncoded
@@ -32,11 +30,6 @@ interface ApiService {
 
     @GET("stories")
     suspend fun getAllStories(): StoryResponse
-
-    @GET("stories/{id}")
-    suspend fun getDetailStory(
-        @Path("id") username: String
-    ): DetailResponse
 
     @Multipart
     @POST("stories")

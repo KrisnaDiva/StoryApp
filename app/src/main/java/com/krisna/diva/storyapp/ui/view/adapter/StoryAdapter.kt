@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.krisna.diva.storyapp.data.model.StoryModel
 import com.krisna.diva.storyapp.data.remote.response.ListStoryItem
 import com.krisna.diva.storyapp.databinding.ItemStoryBinding
 import com.krisna.diva.storyapp.ui.view.DetailActivity
@@ -45,8 +46,15 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
                 .into(binding.ivItemPhoto)
 
             binding.cardView.setOnClickListener {
+                val storyModel = StoryModel(
+                    id = story.id,
+                    name = story.name,
+                    description = story.description,
+                    photoUrl = story.photoUrl
+                )
+
                 val intent = Intent(binding.root.context, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.ID, story.id)
+                intent.putExtra(DetailActivity.EXTRA_STORY, storyModel)
                 val optionsCompat: ActivityOptionsCompat =
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
                         itemView.context as Activity,
