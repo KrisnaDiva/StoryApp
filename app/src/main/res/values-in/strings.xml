@@ -25,4 +25,7 @@
     <string name="result_empty">Hasil Kosong</string>
     <string name="app_language">Bahasa Aplikasi</string>
     <string name="language_icon">ikon bahasa</string>
+    <string name="no_internet">Tidak ada koneksi internet</string>
+    <string name="no_internet_description">Silakan periksa koneksi internet Anda dan coba lagi.</string>
+    <string name="ok">OKE</string>
 </resources>

@@ -25,4 +25,7 @@
     <string name="result_empty">Result Empty</string>
     <string name="app_language">App language</string>
     <string name="language_icon">language icon</string>
+    <string name="no_internet">No Internet Connection</string>
+    <string name="no_internet_description">Please check your internet connection and try again.</string>
+    <string name="ok">OK</string>
 </resources>

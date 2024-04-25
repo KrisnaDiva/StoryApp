@@ -9,14 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.databinding.FragmentHomeBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.view.adapter.StoryAdapter
 import com.krisna.diva.storyapp.ui.viewmodel.HomeViewModel
-import com.krisna.diva.storyapp.utils.showLoading
-import com.krisna.diva.storyapp.utils.showToast
+import com.krisna.diva.storyapp.util.NetworkUtils
+import com.krisna.diva.storyapp.util.showLoading
+import com.krisna.diva.storyapp.util.showToast
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -49,28 +51,37 @@ class HomeFragment : Fragment() {
                 }
             adapter = storyAdapter
         }
+        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.no_internet)
+                .setMessage(R.string.no_internet_description)
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    requireActivity().finish()
+                }
+                .show()
+        } else {
+            viewModel.listStory.observe(viewLifecycleOwner) { result ->
+                if (result != null) {
+                    when (result) {
+                        is ResultState.Loading -> {
+                            binding.progressIndicator.showLoading(true)
+                        }
 
-        viewModel.listStory.observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                when (result) {
-                    is ResultState.Loading -> {
-                        binding.progressIndicator.showLoading(true)
-                    }
+                        is ResultState.Success -> {
+                            binding.progressIndicator.showLoading(false)
+                            val stories = result.data
+                            storyAdapter.submitList(stories.listStory)
+                        }
 
-                    is ResultState.Success -> {
-                        binding.progressIndicator.showLoading(false)
-                        val stories = result.data
-                        storyAdapter.submitList(stories.listStory)
-                    }
+                        is ResultState.Error -> {
+                            requireContext().showToast(result.error)
+                            binding.progressIndicator.showLoading(false)
+                        }
 
-                    is ResultState.Error -> {
-                        requireContext().showToast(result.error)
-                        binding.progressIndicator.showLoading(false)
-                    }
-
-                    is ResultState.Empty -> {
-                        requireContext().showToast(R.string.result_empty.toString())
-                        binding.progressIndicator.showLoading(false)
+                        is ResultState.Empty -> {
+                            requireContext().showToast(R.string.result_empty.toString())
+                            binding.progressIndicator.showLoading(false)
+                        }
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package com.krisna.diva.storyapp.utils
+package com.krisna.diva.storyapp.util
 
 import android.content.Context
 import android.view.View

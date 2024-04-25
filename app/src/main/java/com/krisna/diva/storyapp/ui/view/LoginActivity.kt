@@ -4,13 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.databinding.ActivityLoginBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.LoginViewModel
-import com.krisna.diva.storyapp.utils.showLoading
-import com.krisna.diva.storyapp.utils.showToast
+import com.krisna.diva.storyapp.util.NetworkUtils
+import com.krisna.diva.storyapp.util.showLoading
+import com.krisna.diva.storyapp.util.showToast
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -31,40 +34,50 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            viewModel.login(
-                binding.edLoginEmail.text.toString(),
-                binding.edLoginPassword.text.toString()
-            ).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is ResultState.Loading -> {
-                            binding.progressIndicator.showLoading(true)
-                        }
+            if (!NetworkUtils.isNetworkAvailable(this)) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.no_internet)
+                    .setMessage(R.string.no_internet_description)
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        finish()
+                    }
+                    .show()
+            } else {
+                viewModel.login(
+                    binding.edLoginEmail.text.toString(),
+                    binding.edLoginPassword.text.toString()
+                ).observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is ResultState.Loading -> {
+                                binding.progressIndicator.showLoading(true)
+                            }
 
-                        is ResultState.Success -> {
-                            viewModel.saveUser(
-                                UserModel(
-                                    result.data.loginResult.name,
-                                    binding.edLoginEmail.text.toString(),
-                                    result.data.loginResult.token
+                            is ResultState.Success -> {
+                                viewModel.saveUser(
+                                    UserModel(
+                                        result.data.loginResult.name,
+                                        binding.edLoginEmail.text.toString(),
+                                        result.data.loginResult.token
+                                    )
                                 )
-                            )
-                            showToast(result.data.message)
-                            binding.progressIndicator.showLoading(false)
-                            val intent = Intent(this, MainActivity::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
-                            finish()
-                        }
+                                showToast(result.data.message)
+                                binding.progressIndicator.showLoading(false)
+                                val intent = Intent(this, MainActivity::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                                finish()
+                            }
 
-                        is ResultState.Error -> {
-                            showToast(result.error)
-                            binding.progressIndicator.showLoading(false)
-                        }
+                            is ResultState.Error -> {
+                                showToast(result.error)
+                                binding.progressIndicator.showLoading(false)
+                            }
 
-                        else -> {
+                            else -> {
 
+                            }
                         }
                     }
                 }

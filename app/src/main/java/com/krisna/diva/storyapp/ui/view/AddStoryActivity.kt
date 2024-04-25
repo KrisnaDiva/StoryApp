@@ -8,16 +8,18 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.databinding.ActivityAddStoryBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.AddStoryViewModel
-import com.krisna.diva.storyapp.utils.getImageUri
-import com.krisna.diva.storyapp.utils.reduceFileImage
-import com.krisna.diva.storyapp.utils.showLoading
-import com.krisna.diva.storyapp.utils.showToast
-import com.krisna.diva.storyapp.utils.uriToFile
+import com.krisna.diva.storyapp.util.NetworkUtils
+import com.krisna.diva.storyapp.util.getImageUri
+import com.krisna.diva.storyapp.util.reduceFileImage
+import com.krisna.diva.storyapp.util.showLoading
+import com.krisna.diva.storyapp.util.showToast
+import com.krisna.diva.storyapp.util.uriToFile
 
 class AddStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddStoryBinding
@@ -48,7 +50,17 @@ class AddStoryActivity : AppCompatActivity() {
             startCamera()
         }
         binding.buttonAdd.setOnClickListener {
-            addNewStory()
+            if (!NetworkUtils.isNetworkAvailable(this)) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.no_internet)
+                    .setMessage(R.string.no_internet_description)
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        finish()
+                    }
+                    .show()
+            } else {
+                addNewStory()
+            }
         }
     }
 
