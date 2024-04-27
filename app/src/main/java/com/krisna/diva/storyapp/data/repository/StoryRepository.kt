@@ -3,10 +3,12 @@ package com.krisna.diva.storyapp.data.repository
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
 import com.krisna.diva.storyapp.data.ResultState
+import com.krisna.diva.storyapp.data.model.StoryModel
 import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.data.pref.UserPreference
 import com.krisna.diva.storyapp.data.remote.response.BaseResponse
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
+import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
@@ -48,7 +50,30 @@ class StoryRepository private constructor(
         }
     }
 
-    suspend fun getAllStories() = apiService.getAllStories()
+    fun getAllStories() = liveData {
+        emit(ResultState.Loading)
+        try {
+            val response = apiService.getAllStories()
+            val stories = response.listStory
+            if (stories.isEmpty()) {
+                emit(ResultState.Empty)
+            } else {
+                val storyList = stories.map { story ->
+                    StoryModel(
+                        story.id,
+                        story.name,
+                        story.description,
+                        story.photoUrl
+                    )
+                }
+                emit(ResultState.Success(storyList))
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
+            emit(ResultState.Error(errorResponse.message))
+        }
+    }
 
     fun addNewStory(imageFile: File, description: String) = liveData {
         emit(ResultState.Loading)

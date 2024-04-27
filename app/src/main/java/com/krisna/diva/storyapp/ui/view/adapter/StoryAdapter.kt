@@ -1,7 +1,7 @@
 package com.krisna.diva.storyapp.ui.view.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
@@ -11,14 +11,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.krisna.diva.storyapp.data.model.StoryModel
-import com.krisna.diva.storyapp.data.remote.response.ListStoryItem
 import com.krisna.diva.storyapp.databinding.ItemStoryBinding
-import com.krisna.diva.storyapp.ui.view.DetailActivity
 
-class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class StoryAdapter(private val onItemClick: (StoryModel, ActivityOptionsCompat) -> Unit) : ListAdapter<StoryModel, StoryAdapter.MyViewHolder>(DIFF_CALLBACK)
+{
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
+        return MyViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -36,25 +35,16 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
         }
     }
 
-    class MyViewHolder(private val binding: ItemStoryBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(story: ListStoryItem) {
+    class MyViewHolder(private val binding: ItemStoryBinding, val onItemClick: (StoryModel, ActivityOptionsCompat) -> Unit) : RecyclerView.ViewHolder(binding.root)
+    {
+
+        fun bind(story: StoryModel) {
             binding.tvItemName.text = story.name
             binding.tvItemDescription.text = story.description
             Glide.with(binding.root)
                 .load(story.photoUrl)
                 .into(binding.ivItemPhoto)
-
-            binding.cardView.setOnClickListener {
-                val storyModel = StoryModel(
-                    id = story.id,
-                    name = story.name,
-                    description = story.description,
-                    photoUrl = story.photoUrl
-                )
-
-                val intent = Intent(binding.root.context, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_STORY, storyModel)
+            itemView.setOnClickListener {
                 val optionsCompat: ActivityOptionsCompat =
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
                         itemView.context as Activity,
@@ -62,23 +52,22 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
                         Pair(binding.tvItemName, "name"),
                         Pair(binding.tvItemDescription, "description"),
                     )
-                binding.root.context.startActivity(intent, optionsCompat.toBundle())
+                onItemClick(story, optionsCompat)
             }
         }
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
-            override fun areItemsTheSame(oldItem: ListStoryItem, newItem: ListStoryItem): Boolean {
-                return oldItem == newItem
-            }
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<StoryModel> =
+            object : DiffUtil.ItemCallback<StoryModel>() {
+                override fun areItemsTheSame(oldStory: StoryModel, newStory: StoryModel): Boolean {
+                    return oldStory.id == newStory.id
+                }
 
-            override fun areContentsTheSame(
-                oldItem: ListStoryItem,
-                newItem: ListStoryItem
-            ): Boolean {
-                return oldItem == newItem
+                @SuppressLint("DiffUtilEquals")
+                override fun areContentsTheSame(oldStory: StoryModel, newStory: StoryModel): Boolean {
+                    return oldStory == newStory
+                }
             }
-        }
     }
 }

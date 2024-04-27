@@ -1,5 +1,6 @@
 package com.krisna.diva.storyapp.ui.view
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,7 +41,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        storyAdapter = StoryAdapter()
+        storyAdapter = StoryAdapter { story, optionsCompat ->
+            startActivity(Intent(requireContext(), DetailActivity::class.java).apply {
+                putExtra(DetailActivity.EXTRA_STORY, story)
+            }, optionsCompat.toBundle())
+        }
 
         binding.rvStory.apply {
             layoutManager =
@@ -70,7 +75,7 @@ class HomeFragment : Fragment() {
                         is ResultState.Success -> {
                             binding.progressIndicator.showLoading(false)
                             val stories = result.data
-                            storyAdapter.submitList(stories.listStory)
+                            storyAdapter.submitList(stories)
                         }
 
                         is ResultState.Error -> {
