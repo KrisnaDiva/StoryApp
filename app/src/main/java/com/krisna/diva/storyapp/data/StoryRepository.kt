@@ -1,12 +1,19 @@
-package com.krisna.diva.storyapp.data.repository
+package com.krisna.diva.storyapp.data
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import androidx.paging.map
 import com.google.gson.Gson
-import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.data.model.StoryModel
 import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.data.pref.UserPreference
 import com.krisna.diva.storyapp.data.remote.response.BaseResponse
+import com.krisna.diva.storyapp.data.remote.response.ListStoryItem
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
 import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig
@@ -50,30 +57,25 @@ class StoryRepository private constructor(
         }
     }
 
-    fun getAllStories() = liveData {
-        emit(ResultState.Loading)
-        try {
-            val response = apiService.getAllStories()
-            val stories = response.listStory
-            if (stories.isEmpty()) {
-                emit(ResultState.Empty)
-            } else {
-                val storyList = stories.map { story ->
-                    StoryModel(
-                        story.id,
-                        story.name,
-                        story.description,
-                        story.photoUrl
-                    )
-                }
-                emit(ResultState.Success(storyList))
-            }
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
-            emit(ResultState.Error(errorResponse.message))
+fun getStories(): LiveData<PagingData<StoryModel>> {
+    return Pager(
+        config = PagingConfig(
+            pageSize = 5
+        ),
+        pagingSourceFactory = {
+            StoryPagingSource(apiService)
+        }
+    ).liveData.map { pagingData ->
+        pagingData.map { listStoryItem ->
+            StoryModel(
+                listStoryItem.id,
+                listStoryItem.name,
+                listStoryItem.description,
+                listStoryItem.photoUrl
+            )
         }
     }
+}
 
     fun getStoriesWithLocation() = liveData {
         emit(ResultState.Loading)

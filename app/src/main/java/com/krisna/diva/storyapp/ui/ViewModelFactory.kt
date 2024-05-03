@@ -3,7 +3,7 @@ package com.krisna.diva.storyapp.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.krisna.diva.storyapp.data.repository.StoryRepository
+import com.krisna.diva.storyapp.data.StoryRepository
 import com.krisna.diva.storyapp.di.Injection
 import com.krisna.diva.storyapp.ui.viewmodel.AddStoryViewModel
 import com.krisna.diva.storyapp.ui.viewmodel.HomeViewModel

@@ -72,11 +72,9 @@ dependencies {
 //    glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-//    bottombar
-    implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
-
+//    location
     implementation("com.google.android.gms:play-services-location:21.2.0")
-
-
+//    paging3
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
 
 }

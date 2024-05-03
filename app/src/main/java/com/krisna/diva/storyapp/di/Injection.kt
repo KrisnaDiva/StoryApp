@@ -4,7 +4,7 @@ import android.content.Context
 import com.krisna.diva.storyapp.data.pref.UserPreference
 import com.krisna.diva.storyapp.data.pref.dataStore
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig
-import com.krisna.diva.storyapp.data.repository.StoryRepository
+import com.krisna.diva.storyapp.data.StoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
