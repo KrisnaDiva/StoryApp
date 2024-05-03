@@ -75,4 +75,8 @@ dependencies {
 //    bottombar
     implementation("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
 
+    implementation("com.google.android.gms:play-services-location:21.2.0")
+
+
+
 }

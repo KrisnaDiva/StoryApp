@@ -1,6 +1,5 @@
 package com.krisna.diva.storyapp.ui.view
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController

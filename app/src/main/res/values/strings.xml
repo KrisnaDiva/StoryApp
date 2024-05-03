@@ -29,4 +29,6 @@
     <string name="no_internet">No Internet Connection</string>
     <string name="no_internet_description">Please check your internet connection and try again.</string>
     <string name="ok">OK</string>
+    <string name="location">Location</string>
+    <string name="location_denied">Permission denied. Unable to access location.</string>
 </resources>

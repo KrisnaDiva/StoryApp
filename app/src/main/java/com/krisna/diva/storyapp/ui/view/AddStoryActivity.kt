@@ -1,6 +1,10 @@
 package com.krisna.diva.storyapp.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
@@ -8,6 +12,9 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.data.ResultState
@@ -27,6 +34,21 @@ class AddStoryActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
     private var newImageUri: Uri? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var latitude: Double? = null
+    private var longitude: Double? = null
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                getMyLocation()
+            } else {
+                showToast(getString(R.string.location_denied))
+                binding.switchLocation.isChecked = false
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +71,7 @@ class AddStoryActivity : AppCompatActivity() {
         binding.btnCamera.setOnClickListener {
             startCamera()
         }
+
         binding.buttonAdd.setOnClickListener {
             if (!NetworkUtils.isNetworkAvailable(this)) {
                 MaterialAlertDialogBuilder(this)
@@ -62,7 +85,34 @@ class AddStoryActivity : AppCompatActivity() {
                 addNewStory()
             }
         }
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        binding.switchLocation.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                } else {
+                    getMyLocation()
+                }
+            }
+        }
     }
+
+
+    @SuppressLint("MissingPermission")
+    private fun getMyLocation() {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                latitude = location?.latitude
+                longitude = location?.longitude
+            }
+    }
+
 
     private fun startGallery() {
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
@@ -102,31 +152,32 @@ class AddStoryActivity : AppCompatActivity() {
             val imageFile = uriToFile(uri, this).reduceFileImage()
             val description = binding.edAddDescription.text.toString()
 
-            viewModel.addNewStory(imageFile, description).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is ResultState.Loading -> {
-                            binding.progressIndicator.showLoading(true)
-                        }
+            viewModel.addNewStory(imageFile, description, latitude, longitude)
+                .observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is ResultState.Loading -> {
+                                binding.progressIndicator.showLoading(true)
+                            }
 
-                        is ResultState.Success -> {
-                            showToast(result.data.message)
-                            binding.progressIndicator.showLoading(false)
-                            val intent = Intent(this, MainActivity::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
-                        }
+                            is ResultState.Success -> {
+                                showToast(result.data.message)
+                                binding.progressIndicator.showLoading(false)
+                                val intent = Intent(this, MainActivity::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                            }
 
-                        is ResultState.Error -> {
-                            showToast(result.error)
-                            binding.progressIndicator.showLoading(false)
-                        }
+                            is ResultState.Error -> {
+                                showToast(result.error)
+                                binding.progressIndicator.showLoading(false)
+                            }
 
-                        else -> {}
+                            else -> {}
+                        }
                     }
                 }
-            }
         } ?: showToast(getString(R.string.empty_image_warning))
     }
 

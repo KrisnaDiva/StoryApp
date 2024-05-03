@@ -4,6 +4,7 @@
     <string name="title_profile">Profil</string>
     <string name="title_maps">Peta</string>
     <string name="login">Masuk</string>
+    <string name="location">Lokasi</string>
     <string name="aleready_have_an_account">Sudah memiliki akun?</string>
     <string name="welcome_to_story_app">Selamat datang di Story App!</string>
     <string name="add_story_description">Tambah Cerita</string>
@@ -29,4 +30,5 @@
     <string name="no_internet">Tidak ada koneksi internet</string>
     <string name="no_internet_description">Silakan periksa koneksi internet Anda dan coba lagi.</string>
     <string name="ok">OKE</string>
+    <string name="location_denied">Izin ditolak. Tidak dapat mengakses lokasi.</string>
 </resources>

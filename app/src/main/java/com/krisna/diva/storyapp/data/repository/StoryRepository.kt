@@ -102,7 +102,12 @@ class StoryRepository private constructor(
         }
     }
 
-    fun addNewStory(imageFile: File, description: String) = liveData {
+    fun addNewStory(
+        imageFile: File,
+        description: String,
+        latitude: Double? = null,
+        longitude: Double? = null
+    ) = liveData {
         emit(ResultState.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
@@ -111,8 +116,16 @@ class StoryRepository private constructor(
             imageFile.name,
             requestImageFile
         )
+
+        val requestLatitude = latitude?.toString()?.toRequestBody("text/plain".toMediaType())
+        val requestLongitude = longitude?.toString()?.toRequestBody("text/plain".toMediaType())
+
         try {
-            val successResponse = apiService.addStory(multipartBody, requestBody)
+            val successResponse = if (requestLatitude != null && requestLongitude != null) {
+                apiService.addStory(multipartBody, requestBody, requestLatitude, requestLongitude)
+            } else {
+                apiService.addStory(multipartBody, requestBody)
+            }
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
