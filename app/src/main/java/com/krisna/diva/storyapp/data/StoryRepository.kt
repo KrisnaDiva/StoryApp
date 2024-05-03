@@ -3,17 +3,18 @@ package com.krisna.diva.storyapp.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import androidx.paging.map
 import com.google.gson.Gson
+import com.krisna.diva.storyapp.data.local.room.StoryDatabase
 import com.krisna.diva.storyapp.data.model.StoryModel
 import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.data.pref.UserPreference
 import com.krisna.diva.storyapp.data.remote.response.BaseResponse
-import com.krisna.diva.storyapp.data.remote.response.ListStoryItem
 import com.krisna.diva.storyapp.data.remote.response.LoginResponse
 import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig
@@ -27,6 +28,7 @@ import retrofit2.HttpException
 import java.io.File
 
 class StoryRepository private constructor(
+    private val storyDatabase: StoryDatabase,
     private var apiService: ApiService,
     private val userPreference: UserPreference
 ) {
@@ -57,25 +59,28 @@ class StoryRepository private constructor(
         }
     }
 
-fun getStories(): LiveData<PagingData<StoryModel>> {
-    return Pager(
-        config = PagingConfig(
-            pageSize = 5
-        ),
-        pagingSourceFactory = {
-            StoryPagingSource(apiService)
-        }
-    ).liveData.map { pagingData ->
-        pagingData.map { listStoryItem ->
-            StoryModel(
-                listStoryItem.id,
-                listStoryItem.name,
-                listStoryItem.description,
-                listStoryItem.photoUrl
-            )
+    fun getStories(): LiveData<PagingData<StoryModel>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
+            pagingSourceFactory = {
+                storyDatabase.storyDao().getStories()
+            }
+
+        ).liveData.map { pagingData ->
+            pagingData.map { listStoryItem ->
+                StoryModel(
+                    listStoryItem.id,
+                    listStoryItem.name,
+                    listStoryItem.description,
+                    listStoryItem.photoUrl
+                )
+            }
         }
     }
-}
 
     fun getStoriesWithLocation() = liveData {
         emit(ResultState.Loading)
@@ -151,9 +156,13 @@ fun getStories(): LiveData<PagingData<StoryModel>> {
     companion object {
         @Volatile
         private var instance: StoryRepository? = null
-        fun getInstance(apiService: ApiService, userPreference: UserPreference) =
+        fun getInstance(
+            storyDatabase: StoryDatabase,
+            apiService: ApiService,
+            userPreference: UserPreference
+        ) =
             instance ?: synchronized(this) {
-                instance ?: StoryRepository(apiService, userPreference)
+                instance ?: StoryRepository(storyDatabase, apiService, userPreference)
             }.also { instance = it }
     }
 }
