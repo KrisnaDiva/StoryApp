@@ -47,6 +47,10 @@ class HomeFragment : Fragment() {
             }, optionsCompat.toBundle())
         }
 
+        binding.fabAddStory.setOnClickListener {
+            startActivity(Intent(requireContext(), AddStoryActivity::class.java))
+        }
+
         binding.rvStory.apply {
             layoutManager =
                 if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {

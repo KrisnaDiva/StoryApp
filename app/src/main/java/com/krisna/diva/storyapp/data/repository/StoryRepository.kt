@@ -75,6 +75,33 @@ class StoryRepository private constructor(
         }
     }
 
+    fun getStoriesWithLocation() = liveData {
+        emit(ResultState.Loading)
+        try {
+            val response = apiService.getStoriesWithLocation()
+            val stories = response.listStory
+            if (stories.isEmpty()) {
+                emit(ResultState.Empty)
+            } else {
+                val storyList = stories.map { story ->
+                    StoryModel(
+                        story.id,
+                        story.name,
+                        story.description,
+                        story.photoUrl,
+                        story.lat,
+                        story.lon
+                    )
+                }
+                emit(ResultState.Success(storyList))
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, StoryResponse::class.java)
+            emit(ResultState.Error(errorResponse.message))
+        }
+    }
+
     fun addNewStory(imageFile: File, description: String) = liveData {
         emit(ResultState.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())

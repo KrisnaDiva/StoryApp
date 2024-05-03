@@ -54,8 +54,8 @@ class AddStoryActivity : AppCompatActivity() {
                 MaterialAlertDialogBuilder(this)
                     .setTitle(R.string.no_internet)
                     .setMessage(R.string.no_internet_description)
-                    .setPositiveButton(R.string.ok) { _, _ ->
-                        finish()
+                    .setPositiveButton(R.string.ok) { dialog, _ ->
+                        dialog.dismiss()
                     }
                     .show()
             } else {

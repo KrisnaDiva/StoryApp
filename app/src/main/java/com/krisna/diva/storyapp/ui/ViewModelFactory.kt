@@ -8,6 +8,7 @@ import com.krisna.diva.storyapp.di.Injection
 import com.krisna.diva.storyapp.ui.viewmodel.AddStoryViewModel
 import com.krisna.diva.storyapp.ui.viewmodel.HomeViewModel
 import com.krisna.diva.storyapp.ui.viewmodel.LoginViewModel
+import com.krisna.diva.storyapp.ui.viewmodel.MapsViewModel
 import com.krisna.diva.storyapp.ui.viewmodel.ProfileViewModel
 import com.krisna.diva.storyapp.ui.viewmodel.RegisterViewModel
 import com.krisna.diva.storyapp.ui.viewmodel.SplashScreenViewModel
@@ -40,6 +41,10 @@ class ViewModelFactory(private val repository: StoryRepository) :
 
             modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
                 AddStoryViewModel(repository) as T
+            }
+
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
