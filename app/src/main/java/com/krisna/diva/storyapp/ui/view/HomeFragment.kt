@@ -17,8 +17,7 @@ import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.view.adapter.LoadingStateAdapter
 import com.krisna.diva.storyapp.ui.view.adapter.StoryAdapter
 import com.krisna.diva.storyapp.ui.viewmodel.HomeViewModel
-import com.krisna.diva.storyapp.util.NetworkUtils
-import com.krisna.diva.storyapp.util.showLoading
+import com.krisna.diva.storyapp.utils.NetworkUtils
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null

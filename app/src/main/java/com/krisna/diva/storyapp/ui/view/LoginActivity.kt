@@ -11,9 +11,9 @@ import com.krisna.diva.storyapp.data.model.UserModel
 import com.krisna.diva.storyapp.databinding.ActivityLoginBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.LoginViewModel
-import com.krisna.diva.storyapp.util.NetworkUtils
-import com.krisna.diva.storyapp.util.showLoading
-import com.krisna.diva.storyapp.util.showToast
+import com.krisna.diva.storyapp.utils.NetworkUtils
+import com.krisna.diva.storyapp.utils.showLoading
+import com.krisna.diva.storyapp.utils.showToast
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

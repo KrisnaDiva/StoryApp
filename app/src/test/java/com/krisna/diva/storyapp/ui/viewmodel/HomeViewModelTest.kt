@@ -25,16 +25,18 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
-
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class HomeViewModelTest{
+class HomeViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
+
     @get:Rule
     val mainDispatcherRules = MainDispatcherRule()
+
     @Mock
     private lateinit var storyRepository: StoryRepository
+
     @Test
     fun `when Get Story Should Not Null and Return Data`() = runTest {
         val dummyStory = DataDummy.generateDummyStoryResponse()

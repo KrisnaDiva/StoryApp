@@ -10,9 +10,9 @@ import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.databinding.ActivityRegisterBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.RegisterViewModel
-import com.krisna.diva.storyapp.util.NetworkUtils
-import com.krisna.diva.storyapp.util.showLoading
-import com.krisna.diva.storyapp.util.showToast
+import com.krisna.diva.storyapp.utils.NetworkUtils
+import com.krisna.diva.storyapp.utils.showLoading
+import com.krisna.diva.storyapp.utils.showToast
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding

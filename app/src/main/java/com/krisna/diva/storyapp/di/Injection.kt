@@ -1,11 +1,11 @@
 package com.krisna.diva.storyapp.di
 
 import android.content.Context
+import com.krisna.diva.storyapp.data.StoryRepository
+import com.krisna.diva.storyapp.data.local.room.StoryDatabase
 import com.krisna.diva.storyapp.data.pref.UserPreference
 import com.krisna.diva.storyapp.data.pref.dataStore
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig
-import com.krisna.diva.storyapp.data.StoryRepository
-import com.krisna.diva.storyapp.data.local.room.StoryDatabase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 

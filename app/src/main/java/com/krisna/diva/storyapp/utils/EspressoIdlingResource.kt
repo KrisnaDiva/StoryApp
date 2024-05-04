@@ -1,4 +1,4 @@
-package com.krisna.diva.storyapp.util
+package com.krisna.diva.storyapp.utils
 
 import androidx.test.espresso.idling.CountingIdlingResource
 
@@ -19,11 +19,12 @@ object EspressoIdlingResource {
         }
     }
 }
+
 inline fun <T> wrapEspressoIdlingResource(function: () -> T): T {
-    EspressoIdlingResource.increment() // Set app as busy.
+    EspressoIdlingResource.increment()
     return try {
         function()
     } finally {
-        EspressoIdlingResource.decrement() // Set app as idle.
+        EspressoIdlingResource.decrement()
     }
 }

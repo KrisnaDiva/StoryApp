@@ -1,4 +1,4 @@
-package com.krisna.diva.storyapp.util
+package com.krisna.diva.storyapp.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

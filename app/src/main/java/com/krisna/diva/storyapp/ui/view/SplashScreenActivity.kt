@@ -11,7 +11,7 @@ import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.databinding.ActivitySplashScreenBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.SplashScreenViewModel
-import com.krisna.diva.storyapp.util.NetworkUtils
+import com.krisna.diva.storyapp.utils.NetworkUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

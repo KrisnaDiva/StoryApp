@@ -4,11 +4,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.krisna.diva.storyapp.data.local.room.StoryDatabase
-import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
 import androidx.room.withTransaction
 import com.krisna.diva.storyapp.data.local.entity.RemoteKeys
+import com.krisna.diva.storyapp.data.local.room.StoryDatabase
 import com.krisna.diva.storyapp.data.model.StoryModel
+import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
 
 @OptIn(ExperimentalPagingApi::class)
 class StoryRemoteMediator(

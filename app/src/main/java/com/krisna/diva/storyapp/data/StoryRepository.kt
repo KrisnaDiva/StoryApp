@@ -19,7 +19,7 @@ import com.krisna.diva.storyapp.data.remote.response.LoginResponse
 import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
-import com.krisna.diva.storyapp.util.wrapEspressoIdlingResource
+import com.krisna.diva.storyapp.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody

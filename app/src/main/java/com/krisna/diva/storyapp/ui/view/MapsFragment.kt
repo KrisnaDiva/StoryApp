@@ -21,9 +21,9 @@ import com.krisna.diva.storyapp.data.model.StoryModel
 import com.krisna.diva.storyapp.databinding.FragmentMapsBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.MapsViewModel
-import com.krisna.diva.storyapp.util.NetworkUtils
-import com.krisna.diva.storyapp.util.showLoading
-import com.krisna.diva.storyapp.util.showToast
+import com.krisna.diva.storyapp.utils.NetworkUtils
+import com.krisna.diva.storyapp.utils.showLoading
+import com.krisna.diva.storyapp.utils.showToast
 
 class MapsFragment : Fragment() {
     private var _binding: FragmentMapsBinding? = null

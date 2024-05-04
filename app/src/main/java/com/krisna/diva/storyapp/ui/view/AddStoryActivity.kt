@@ -1,8 +1,8 @@
 package com.krisna.diva.storyapp.ui.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
@@ -21,12 +21,12 @@ import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.databinding.ActivityAddStoryBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
 import com.krisna.diva.storyapp.ui.viewmodel.AddStoryViewModel
-import com.krisna.diva.storyapp.util.NetworkUtils
-import com.krisna.diva.storyapp.util.getImageUri
-import com.krisna.diva.storyapp.util.reduceFileImage
-import com.krisna.diva.storyapp.util.showLoading
-import com.krisna.diva.storyapp.util.showToast
-import com.krisna.diva.storyapp.util.uriToFile
+import com.krisna.diva.storyapp.utils.NetworkUtils
+import com.krisna.diva.storyapp.utils.getImageUri
+import com.krisna.diva.storyapp.utils.reduceFileImage
+import com.krisna.diva.storyapp.utils.showLoading
+import com.krisna.diva.storyapp.utils.showToast
+import com.krisna.diva.storyapp.utils.uriToFile
 
 class AddStoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddStoryBinding
