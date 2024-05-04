@@ -29,7 +29,7 @@ import org.junit.runners.MethodSorters
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class LoginLogoutTest {
 
-    private val email = "krisnadiva04@gmail.com"
+    private val email = "coba@example.com"
     private val password = "password"
 
     @get:Rule
