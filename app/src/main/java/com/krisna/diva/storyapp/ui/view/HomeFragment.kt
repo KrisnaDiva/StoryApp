@@ -14,6 +14,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.krisna.diva.storyapp.R
 import com.krisna.diva.storyapp.databinding.FragmentHomeBinding
 import com.krisna.diva.storyapp.ui.ViewModelFactory
+import com.krisna.diva.storyapp.ui.view.adapter.LoadingStateAdapter
 import com.krisna.diva.storyapp.ui.view.adapter.StoryAdapter
 import com.krisna.diva.storyapp.ui.viewmodel.HomeViewModel
 import com.krisna.diva.storyapp.util.NetworkUtils
@@ -25,7 +26,6 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<HomeViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
-    private lateinit var storyAdapter: StoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,25 +39,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        storyAdapter = StoryAdapter { story, optionsCompat ->
-            startActivity(Intent(requireContext(), DetailActivity::class.java).apply {
-                putExtra(DetailActivity.EXTRA_STORY, story)
-            }, optionsCompat.toBundle())
-        }
-
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(requireContext(), AddStoryActivity::class.java))
         }
 
-        binding.rvStory.apply {
-            layoutManager =
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    GridLayoutManager(context, 2)
-                } else {
-                    LinearLayoutManager(context)
-                }
-            adapter = storyAdapter
-        }
+        binding.rvStory.layoutManager =
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                GridLayoutManager(context, 2)
+            } else {
+                LinearLayoutManager(context)
+            }
+
         if (!NetworkUtils.isNetworkAvailable(requireContext())) {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.no_internet)
@@ -67,12 +59,25 @@ class HomeFragment : Fragment() {
                 }
                 .show()
         } else {
-            viewModel.listStory.observe(viewLifecycleOwner) {
-                binding.progressIndicator.showLoading(false)
-                storyAdapter.submitData(lifecycle, it)
-                }
-            }
+            getData()
         }
+    }
+
+    private fun getData() {
+        val adapter = StoryAdapter { story, optionsCompat ->
+            startActivity(Intent(requireContext(), DetailActivity::class.java).apply {
+                putExtra(DetailActivity.EXTRA_STORY, story)
+            }, optionsCompat.toBundle())
+        }
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+        viewModel.listStory.observe(viewLifecycleOwner) {
+            adapter.submitData(lifecycle, it)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
