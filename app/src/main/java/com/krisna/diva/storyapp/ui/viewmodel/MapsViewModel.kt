@@ -6,6 +6,6 @@ import com.krisna.diva.storyapp.data.ResultState
 import com.krisna.diva.storyapp.data.model.StoryModel
 import com.krisna.diva.storyapp.data.StoryRepository
 
-class MapsViewModel(private val repository: StoryRepository) : ViewModel() {
+class MapsViewModel(repository: StoryRepository) : ViewModel() {
     val listStoryWithLocation: LiveData<ResultState<List<StoryModel>>> = repository.getStoriesWithLocation()
 }

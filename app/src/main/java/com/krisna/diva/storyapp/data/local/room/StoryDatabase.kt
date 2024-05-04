@@ -5,11 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.krisna.diva.storyapp.data.local.entity.RemoteKeys
-import com.krisna.diva.storyapp.data.local.entity.StoryEntity
+import com.krisna.diva.storyapp.data.model.StoryModel
 
 @Database(
-    entities = [StoryEntity::class, RemoteKeys::class],
-    version = 2,
+    entities = [StoryModel::class, RemoteKeys::class],
+    version = 3,
     exportSchema = false
 )
 abstract class StoryDatabase : RoomDatabase() {

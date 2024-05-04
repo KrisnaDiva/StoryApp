@@ -19,6 +19,7 @@ import com.krisna.diva.storyapp.data.remote.response.LoginResponse
 import com.krisna.diva.storyapp.data.remote.response.StoryResponse
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiConfig
 import com.krisna.diva.storyapp.data.remote.retrofit.ApiService
+import com.krisna.diva.storyapp.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -47,15 +48,17 @@ class StoryRepository private constructor(
 
     fun login(email: String, password: String) = liveData {
         emit(ResultState.Loading)
-        try {
-            val successResponse = apiService.login(email, password)
-            val newApiService = ApiConfig.getApiService(successResponse.loginResult.token)
-            apiService = newApiService
-            emit(ResultState.Success(successResponse))
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
-            emit(ResultState.Error(errorResponse.message))
+        wrapEspressoIdlingResource {
+            try {
+                val successResponse = apiService.login(email, password)
+                val newApiService = ApiConfig.getApiService(successResponse.loginResult.token)
+                apiService = newApiService
+                emit(ResultState.Success(successResponse))
+            } catch (e: HttpException) {
+                val errorBody = e.response()?.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
+                emit(ResultState.Error(errorResponse.message))
+            }
         }
     }
 

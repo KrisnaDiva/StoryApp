@@ -8,6 +8,6 @@ import androidx.paging.cachedIn
 import com.krisna.diva.storyapp.data.model.StoryModel
 import com.krisna.diva.storyapp.data.StoryRepository
 
-class HomeViewModel(private val repository: StoryRepository) : ViewModel() {
+class HomeViewModel(repository: StoryRepository) : ViewModel() {
     val listStory:  LiveData<PagingData<StoryModel>> = repository.getStories().cachedIn(viewModelScope)
 }

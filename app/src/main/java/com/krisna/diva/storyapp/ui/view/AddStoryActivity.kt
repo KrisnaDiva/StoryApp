@@ -129,7 +129,7 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun startCamera() {
         newImageUri = getImageUri(this)
-        launcherIntentCamera.launch(newImageUri)
+        launcherIntentCamera.launch(newImageUri!!)
     }
 
     private val launcherIntentCamera = registerForActivityResult(

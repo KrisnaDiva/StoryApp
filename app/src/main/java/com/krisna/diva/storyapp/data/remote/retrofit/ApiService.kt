@@ -29,9 +29,6 @@ interface ApiService {
         @Field("password") password: String
     ): LoginResponse
 
-//    @GET("stories")
-//    suspend fun getAllStories(): StoryResponse
-
     @GET("stories")
     suspend fun getStories(
         @Query("page") page: Int = 1,

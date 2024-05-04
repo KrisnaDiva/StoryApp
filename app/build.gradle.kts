@@ -68,20 +68,30 @@ dependencies {
 //    okhttp
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 //    datastore
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 //    circleimageview
     implementation("de.hdodenhof:circleimageview:3.1.0")
 //    glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 //    location
     implementation("com.google.android.gms:play-services-location:21.2.0")
 //    paging3
-    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
-//    room-paging
-    implementation("androidx.room:room-paging:2.4.0-rc01")
+    implementation("androidx.paging:paging-runtime-ktx:3.1.0")
 //    room
-    implementation("androidx.room:room-ktx:2.4.0-rc01")
-    ksp("androidx.room:room-compiler:2.4.0-rc01")
+    implementation("androidx.room:room-paging:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
+//    InstantTaskExecutorRule
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+//    TestDispatcher
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+//    mockito
+    testImplementation("org.mockito:mockito-core:4.4.0")
+    testImplementation("org.mockito:mockito-inline:4.4.0")
+//    IdlingResource
+    implementation("androidx.test.espresso:espresso-idling-resource:3.5.1")
+//    IntentsTestRule
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+
 
 }
